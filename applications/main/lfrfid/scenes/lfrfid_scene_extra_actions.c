@@ -4,6 +4,7 @@
 typedef enum {
     SubmenuIndexASK,
     SubmenuIndexPSK,
+    SubmenuIndexSetPwdT5577,
     SubmenuIndexClearT5577,
     SubmenuIndexRAW,
 } SubmenuIndex;
@@ -28,6 +29,12 @@ void lfrfid_scene_extra_actions_on_enter(void* context) {
         submenu,
         "Read PSK (Indala)",
         SubmenuIndexPSK,
+        lfrfid_scene_extra_actions_submenu_callback,
+        app);
+    submenu_add_item(
+        submenu,
+        "Set T5577 Password",
+        SubmenuIndexSetPwdT5577,
         lfrfid_scene_extra_actions_submenu_callback,
         app);
     submenu_add_item(
@@ -71,6 +78,9 @@ bool lfrfid_scene_extra_actions_on_event(void* context, SceneManagerEvent event)
             app->read_type = LFRFIDWorkerReadTypePSKOnly;
             scene_manager_next_scene(app->scene_manager, LfRfidSceneRead);
             DOLPHIN_DEED(DolphinDeedRfidRead);
+            consumed = true;
+        } else if(event.event == SubmenuIndexSetPwdT5577) {
+            scene_manager_next_scene(app->scene_manager, LfRfidSceneSetPwdT5577);
             consumed = true;
         } else if(event.event == SubmenuIndexClearT5577) {
             scene_manager_next_scene(app->scene_manager, LfRfidSceneClearT5577);
