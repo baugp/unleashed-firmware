@@ -116,3 +116,12 @@ void t5577_write_with_pass(LFRFIDT5577* data, uint32_t password) {
     FURI_CRITICAL_EXIT();
     t5577_stop();
 }
+
+void t5577_write_single_block(uint8_t block, uint32_t data) {
+    t5577_start();
+    FURI_CRITICAL_ENTER();
+    t5577_write_block_simple(block, false, data);
+    t5577_write_reset();
+    FURI_CRITICAL_EXIT();
+    t5577_stop();
+}
